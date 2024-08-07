@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "name": "Orange",
+    "price": 200,
+    "image": "/assets/orange.webp"
+  },
+  {
+    "id": 2,
+    "name": "Banana",
+    "price": 200,
+    "image": "/assets/banana.webp"
+  },
+  {
+    "id": 3,
+    "name": "Cherry",
+    "price": 200,
+    "image": "/assets/cherry.webp"
+  },
+  {
+    "id": 4,
+    "name": "Mango",
+    "price": 200,
+    "image": "/assets/mango.webp"
+  },
+  {
+    "id": 5,
+    "name": "Avocado",
+    "price": 200,
+    "image": "/assets/avocado.webp"
+  },
+  {
+    "id": 6,
+    "name": "Chikoo",
+    "price": 200,
+    "image": "/assets/chikoo.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Grapes",
+    "price": 200,
+    "image": "/assets/grapes-black.webp"
+  },
+  {
+    "id": 8,
+    "name": "Pink Guava",
+    "price": 200,
+    "image": "/assets/guava-pink.webp"
+  },
+  {
+    "id": 9,
+    "name": "Plum",
+    "price": 200,
+    "image": "/assets/plum-indian.webp"
+  },
+  {
+    "id": 10,
+    "name": "Kiwi",
+    "price": 200,
+    "image": "/assets/kiwi.webp"
+  },
+  {
+    "id": 11,
+    "name": "Pomegrante",
+    "price": 200,
+    "image": "/assets/pomegranate.webp"
+  }
+]
