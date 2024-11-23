@@ -25,6 +25,7 @@ submit.addEventListener("click", () => {
   document.getElementById("popup").style.display = "none";
   Addcarttomemory();
 });
+
 const Adddatatohtml = () => {
   listproductHtml.innerHTML = "";
   if (listproduct.length > 0) {
@@ -34,9 +35,9 @@ const Adddatatohtml = () => {
       newProduct.dataset.id = product.id;
       newProduct.innerHTML = `
       <img src="${product.image}" alt="image" />
-          <h2>${product.name}</h2>
-          <div class="price">${product.price}</div>
-          <button class="addtocart">Add to Cart</button>`;
+      <h2>${product.name}</h2>
+      <div class="price">$${product.price}</div>
+      <button class="addtocart">Add to Cart</button>`;
       listproductHtml.appendChild(newProduct);
     });
   }
@@ -67,8 +68,7 @@ const Addtocart = (product_id) => {
       quantity: 1,
     });
   } else {
-    carts[positionThisProductIncart].quantity =
-      carts[positionThisProductIncart].quantity + 1;
+    carts[positionThisProductIncart].quantity++;
   }
   AddcarttoHtml();
   Addcarttomemory();
@@ -82,32 +82,32 @@ const AddcarttoHtml = () => {
   listcartHtml.innerHTML = "";
   let totalQuantity = 0;
   if (carts.length > 0) {
-    carts.forEach((carts) => {
-      totalQuantity = totalQuantity + carts.quantity;
+    carts.forEach((cart) => {
+      totalQuantity += cart.quantity;
       let newCart = document.createElement("div");
       newCart.classList.add("item");
-      newCart.dataset.id = carts.product_id;
+      newCart.dataset.id = cart.product_id;
       let positionProduct = listproduct.findIndex(
-        (value) => value.id == carts.product_id
+        (value) => value.id == cart.product_id
       );
       let info = listproduct[positionProduct];
       newCart.innerHTML = `
-          <div class="image">
-            <img src="${info.image}" alt="" />
-          </div>
-          <div class="name">${info.name}</div>
-          <div class="totalPrice">${info.price * carts.quantity}</div>
-          <div class="quantity">
-            <span class="minus"><</span>
-            <span>${carts.quantity}</span>
-            <span class="plus">></span>
-            </div>
-          `;
+      <div class="image">
+      <img src="${info.image}" alt="" />
+      </div>
+      <div class="name">${info.name}</div>
+      <div class="totalPrice">$${info.price * cart.quantity}</div>
+      <div class="quantity">
+      <span class="minus"><</span>
+      <span>${cart.quantity}</span>
+      <span class="plus">></span>
+      </div>`;
       listcartHtml.appendChild(newCart);
     });
     listcartspan.innerText = totalQuantity;
   }
 };
+
 listcartHtml.addEventListener("click", (event) => {
   let positionClick = event.target;
   if (
@@ -115,10 +115,7 @@ listcartHtml.addEventListener("click", (event) => {
     positionClick.classList.contains("plus")
   ) {
     let product_id = positionClick.parentElement.parentElement.dataset.id;
-    let type = "minus";
-    if (positionClick.classList.contains("plus")) {
-      type = "plus";
-    }
+    let type = positionClick.classList.contains("plus") ? "plus" : "minus";
     ChangeQuantity(product_id, type);
   }
 });
@@ -127,21 +124,14 @@ const ChangeQuantity = (product_id, type) => {
   let positionitemincart = carts.findIndex(
     (value) => value.product_id == product_id
   );
-  let newQuantity = carts[positionitemincart].quantity - 1;
   if (positionitemincart >= 0) {
-    switch (type) {
-      case "plus":
-        carts[positionitemincart].quantity =
-          carts[positionitemincart].quantity + 1;
-        break;
-
-      default:
-        if (newQuantity > 0) {
-          carts[positionitemincart].quantity = newQuantity;
-        } else {
-          carts.splice(positionitemincart, 1);
-        }
-        break;
+    if (type === "plus") {
+      carts[positionitemincart].quantity++;
+    } else {
+      carts[positionitemincart].quantity--;
+      if (carts[positionitemincart].quantity <= 0) {
+        carts.splice(positionitemincart, 1);
+      }
     }
   }
   Addcarttomemory();
@@ -150,15 +140,15 @@ const ChangeQuantity = (product_id, type) => {
 
 const initApp = () => {
   fetch("product.json")
-    .then((response) => response.json())
-    .then((data) => {
-      listproduct = data;
-      Adddatatohtml();
-      //get memory
-      if (localStorage.getItem("cart")) {
-        carts = JSON.parse(localStorage.getItem("cart"));
-        AddcarttoHtml();
-      }
-    });
+  .then((response) => response.json())
+  .then((data) => {
+    listproduct = data;
+    Adddatatohtml();
+    if (localStorage.getItem("carts")) {
+      carts = JSON.parse(localStorage.getItem("carts"));
+      AddcarttoHtml();
+    }
+  });
 };
+
 initApp();
